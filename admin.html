@@ -67,7 +67,7 @@
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Image</th><th>Name</th><th>Tag</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Image</th><th>Name</th><th>Brand</th><th>Sold</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="productsBody"></tbody>
         </table>
       </div>
@@ -160,6 +160,16 @@
       </div>
       <div class="field-row">
         <div class="field">
+          <label for="pBrand">Brand</label>
+          <input type="text" id="pBrand" name="brand" placeholder="e.g. Casio, Seiko, XIANO">
+        </div>
+        <div class="field">
+          <label for="pSoldCount">Units Sold</label>
+          <input type="number" id="pSoldCount" name="soldCount" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
           <label for="pPrice">Price (৳)</label>
           <input type="number" id="pPrice" name="price" required min="0">
         </div>
@@ -167,6 +177,10 @@
           <label for="pOrder">Display Order</label>
           <input type="number" id="pOrder" name="order" min="0">
         </div>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="pFeatured" name="featured">
+        <label for="pFeatured">Show in Best Sellers section</label>
       </div>
       <div class="checkbox-row">
         <input type="checkbox" id="pActive" name="active">
@@ -196,6 +210,11 @@
   <div class="modal">
     <h3 id="slideModalTitle">Add Slide</h3>
     <form id="slideForm">
+      <div class="field">
+        <label>Background Image (optional)</label>
+        <div class="image-preview" id="sImagePreview"></div>
+        <input type="file" id="sImageInput" accept="image/*">
+      </div>
       <div class="field">
         <label for="sHeadline">Headline</label>
         <input type="text" id="sHeadline" name="headline" required placeholder="Watches, Built To Be Worn">
