@@ -1,25 +1,19 @@
 // ==========================================================================
 // XIANO — Firebase & imgbb configuration
-// --------------------------------------------------------------------------
-// Replace every value below with your own. Get the firebaseConfig object
-// from: Firebase Console -> Project Settings -> General -> "Your apps" ->
-// SDK setup and configuration -> Config.
-// Get an imgbb key free at https://api.imgbb.com/  (sign up -> "Add API key")
 // ==========================================================================
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB4GoBzWxTWL1Mzd6UyweHx5cwsFemCPPo",
+  authDomain: "xiano-watch.firebaseapp.com",
+  projectId: "xiano-watch",
+  storageBucket: "xiano-watch.firebasestorage.app",
+  messagingSenderId: "1098018384738",
+  appId: "1:1098018384738:web:5067626c12ffa9d6cb1a3b"
 };
 
-const IMGBB_API_KEY = "YOUR_IMGBB_KEY";
+const IMGBB_API_KEY = "d17f8586baf26cc082937e7a4b143bc9";
 
-// WhatsApp number customers land on after checkout confirmation (digits only, country code, no + or spaces)
-const WHATSAPP_NUMBER = "8801XXXXXXXXX";
+const WHATSAPP_NUMBER = "+880 1533-799704";
 
 // --- Firebase init (uses the compat SDKs loaded via <script> tags in the HTML) ---
 firebase.initializeApp(firebaseConfig);
