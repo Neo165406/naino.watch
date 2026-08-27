@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XIANO Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="dot" aria-hidden="true"></div>
+    <h1>XIANO</h1>
+    <div class="eyebrow" style="justify-content:center;">Admin Dashboard</div>
+    <form id="loginForm">
+      <div>
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required autocomplete="username">
+      </div>
+      <div>
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-solid btn-block" style="margin-top:6px;">Log In</button>
+      <div class="form-msg error" id="loginError" style="display:none;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== ADMIN SHELL ===== -->
+<div class="admin-shell" id="adminShell">
+  <aside class="sidebar">
+    <div class="brandmark"><span class="dot" aria-hidden="true" style="width:22px;height:22px;"></span><span class="word">XIANO</span></div>
+    <button class="side-link active" data-panel="dashboard">Dashboard</button>
+    <button class="side-link" data-panel="products">Products</button>
+    <button class="side-link" data-panel="orders">Orders</button>
+    <button class="side-link" data-panel="slides">Slides</button>
+    <button class="side-link" data-panel="theme">Theme</button>
+    <button class="side-link logout" id="logoutBtn">Log Out</button>
+  </aside>
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section class="panel-view active" id="panel-dashboard">
+      <div class="panel-head"><h2>Dashboard</h2></div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num" id="statProducts">0</div><div class="label">Total Products</div></div>
+        <div class="stat-card"><div class="num" id="statActiveProducts">0</div><div class="label">Active / Published</div></div>
+        <div class="stat-card"><div class="num" id="statOrders">0</div><div class="label">Total Orders</div></div>
+        <div class="stat-card"><div class="num" id="statPending">0</div><div class="label">Pending Orders</div></div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="panel-view" id="panel-products">
+      <div class="panel-head">
+        <h2>Products</h2>
+        <button class="btn btn-solid" id="addProductBtn">+ Add Product</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Image</th><th>Name</th><th>Tag</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="productsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ORDERS -->
+    <section class="panel-view" id="panel-orders">
+      <div class="panel-head"><h2>Orders</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th></th></tr></thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SLIDES -->
+    <section class="panel-view" id="panel-slides">
+      <div class="panel-head">
+        <h2>Hero Slides</h2>
+        <button class="btn btn-solid" id="addSlideBtn">+ Add Slide</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Headline</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="slidesBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- THEME -->
+    <section class="panel-view" id="panel-theme">
+      <div class="panel-head"><h2>Theme &amp; Site Settings</h2></div>
+      <div class="table-wrap" style="padding:24px; max-width:480px;">
+        <form id="themeForm">
+          <div class="field">
+            <label for="announcement">Announcement Bar Text</label>
+            <input type="text" id="announcement" name="announcement" placeholder="Free nationwide delivery · Cash on delivery available">
+          </div>
+          <div class="field">
+            <label for="whatsappNumber">WhatsApp Number (digits only, with country code)</label>
+            <input type="text" id="whatsappNumber" name="whatsappNumber" placeholder="8801XXXXXXXXX">
+          </div>
+          <div class="field">
+            <label for="phone">Support Phone Number</label>
+            <input type="text" id="phone" name="phone">
+          </div>
+          <div class="field">
+            <label for="address">Business Address</label>
+            <textarea id="address" name="address"></textarea>
+          </div>
+          <button type="submit" class="btn btn-solid">Save Settings</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== PRODUCT MODAL ===== -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <h3 id="productModalTitle">Add Product</h3>
+    <form id="productForm">
+      <div class="field">
+        <label>Product Image</label>
+        <div class="image-preview" id="pImagePreview"></div>
+        <input type="file" id="pImageInput" accept="image/*">
+      </div>
+      <div class="field">
+        <label for="pName">Name</label>
+        <input type="text" id="pName" name="name" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="pTag">Tag</label>
+          <input type="text" id="pTag" name="tag" placeholder="Chronograph">
+        </div>
+        <div class="field">
+          <label for="pCaseType">Case Shape</label>
+          <select id="pCaseType" name="caseType">
+            <option value="round">Round</option>
+            <option value="square">Square</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pSpec">Spec Line</label>
+        <input type="text" id="pSpec" name="spec" placeholder="Steel bracelet · White dial · Red chrono hand">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="pPrice">Price (৳)</label>
+          <input type="number" id="pPrice" name="price" required min="0">
+        </div>
+        <div class="field">
+          <label for="pOrder">Display Order</label>
+          <input type="number" id="pOrder" name="order" min="0">
+        </div>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="pActive" name="active">
+        <label for="pActive">Visible on storefront</label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="productModalClose">Cancel</button>
+        <button type="submit" class="btn btn-solid">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== ORDER DETAIL MODAL ===== -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <h3>Order Details</h3>
+    <div id="orderDetailBody"></div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-solid" id="orderModalClose" style="flex:1;">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE MODAL ===== -->
+<div class="modal-overlay" id="slideModal">
+  <div class="modal">
+    <h3 id="slideModalTitle">Add Slide</h3>
+    <form id="slideForm">
+      <div class="field">
+        <label for="sHeadline">Headline</label>
+        <input type="text" id="sHeadline" name="headline" required placeholder="Watches, Built To Be Worn">
+      </div>
+      <div class="field">
+        <label for="sBody">Body Text</label>
+        <textarea id="sBody" name="body" placeholder="Sapphire-coated crystals and stainless steel cases…"></textarea>
+      </div>
+      <div class="field">
+        <label for="sOrder">Display Order</label>
+        <input type="number" id="sOrder" name="order" min="0">
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="sActive" name="active">
+        <label for="sActive">Active</label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="slideModalClose">Cancel</button>
+        <button type="submit" class="btn btn-solid">Save Slide</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/admin.js"></script>
+
+</body>
+</html>
