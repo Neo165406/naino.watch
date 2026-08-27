@@ -1,5 +1,5 @@
 // ==========================================================================
-// XIANO — storefront logic (reads from Firestore: settings, slides, products;
+// XAINO — storefront logic (reads from Firestore: settings, slides, products;
 // writes to Firestore: orders)
 // ==========================================================================
 
@@ -36,11 +36,11 @@ const squareWatchSVG = `
 // ---------- safe local storage (falls back to in-memory if blocked) ----------
 let memCart = [];
 function loadCart(){
-  try { return JSON.parse(localStorage.getItem('xiano_cart') || '[]'); }
+  try { return JSON.parse(localStorage.getItem('xaino_cart') || '[]'); }
   catch(e){ return memCart; }
 }
 function saveCart(cart){
-  try { localStorage.setItem('xiano_cart', JSON.stringify(cart)); }
+  try { localStorage.setItem('xaino_cart', JSON.stringify(cart)); }
   catch(e){ memCart = cart; }
 }
 let cart = loadCart();
@@ -73,7 +73,7 @@ db.collection('settings').doc('site').get().then(doc => {
   if (!doc.exists) return;
   const s = doc.data();
   if (s.announcement && announceBar) announceBar.textContent = s.announcement;
-  const waLink = `https://wa.me/${s.whatsappNumber || WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi XIANO, I have a question.')}`;
+  const waLink = `https://wa.me/${s.whatsappNumber || WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi XAINO, I have a question.')}`;
   if (footerWA) footerWA.href = waLink;
   if (heroWA) heroWA.href = waLink;
 }).catch(() => {});
@@ -270,7 +270,7 @@ checkoutForm.addEventListener('submit', async (e) => {
   try {
     await db.collection('orders').add(order);
     const summary = cart.map(i => `${i.qty}x ${i.name}`).join(', ');
-    const waText = encodeURIComponent(`Hi XIANO, I just placed an order (${summary}) — Total ${fmtPrice(order.total)}. Name: ${order.customerName}, Phone: ${order.phone}, Address: ${order.address}`);
+    const waText = encodeURIComponent(`Hi XAINO, I just placed an order (${summary}) — Total ${fmtPrice(order.total)}. Name: ${order.customerName}, Phone: ${order.phone}, Address: ${order.address}`);
     formMsg.className = 'form-msg success';
     formMsg.innerHTML = `Order placed! We'll confirm by phone shortly. <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waText}" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline;">Tap here to also confirm on WhatsApp</a>.`;
     formMsg.style.display = 'block';
