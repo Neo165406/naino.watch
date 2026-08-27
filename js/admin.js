@@ -27,7 +27,7 @@ loginForm.addEventListener('submit', async (e) => {
   try {
     await auth.signInWithEmailAndPassword(email, pass);
   } catch (err) {
-    loginError.textContent = 'Login failed — check your email and password.';
+    loginError.textContent = `Login failed — ${err.code || 'error'}: ${err.message}`;
     loginError.style.display = 'block';
   }
 });
@@ -152,7 +152,7 @@ document.getElementById('pImageInput').addEventListener('change', async (e) => {
     preview.innerHTML = `<img src="${pendingImageUrl}" alt="">`;
   } catch (err) {
     preview.innerHTML = '';
-    toast('Image upload failed — check your imgbb key.');
+    toast(`Image upload failed — ${err.message}`);
   }
 });
 
@@ -180,7 +180,7 @@ productForm.addEventListener('submit', async (e) => {
     productModal.classList.remove('open');
   } catch (err) {
     console.error(err);
-    toast('Could not save — check Firestore rules.');
+    toast(`Could not save — ${err.code || 'error'}: ${err.message}`);
   }
 });
 
