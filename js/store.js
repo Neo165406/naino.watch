@@ -8,45 +8,58 @@ const productGrid = document.getElementById('productGrid');
 const filterPills = document.getElementById('filterPills');
 const bestSellersSection = document.getElementById('bestSellersSection');
 const bestSellersGrid = document.getElementById('bestSellersGrid');
-const heroSection = document.getElementById('heroSection');
-const slideContent = document.getElementById('slideContent');
-const slideDots = document.getElementById('slideDots');
+const promoSlider = document.getElementById('promoSlider');
+const promoTrack = document.getElementById('promoTrack');
+const promoDots = document.getElementById('promoDots');
 
-// ---------- SLIDES ----------
+// ---------- PROMO BANNER SLIDER (StrDust-style — only shows if at least one slide has an image) ----------
 // NOTE: plain orderBy (no .where combined with it) — combining an equality
 // filter with orderBy on a different field needs a Firestore composite index,
 // so we fetch everything ordered and filter "active" client-side instead.
 let slides = [];
 let slideIndex = 0;
 db.collection('slides').orderBy('order').get().then(snap => {
-  slides = snap.docs.map(d => d.data()).filter(s => s.active !== false);
-  if (slides.length === 0) {
-    slides = [{ headline: 'Watches, Built To Be Worn', body: 'Sapphire-coated crystals and stainless steel cases — priced for people who refuse to overpay for a logo.', image: '' }];
-  }
-  renderSlide();
+  slides = snap.docs.map(d => d.data()).filter(s => s.active !== false && s.image);
+  if (slides.length === 0) return; // promoSlider stays hidden — hero already covers the intro copy
+  promoSlider.style.display = 'block';
+  promoTrack.innerHTML = slides.map((s, i) => `
+    <div class="promo-card ${i === 0 ? 'active' : ''}" style="background-image:url('${s.image}')">
+      <div class="promo-card-text">
+        ${s.headline ? `<div class="promo-card-eyebrow">${s.headline}</div>` : ''}
+        ${s.body ? `<div class="promo-card-headline">${s.body}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
   if (slides.length > 1) {
-    slideDots.innerHTML = slides.map((_, i) => `<button data-i="${i}" class="${i === 0 ? 'active' : ''}" aria-label="Slide ${i+1}"></button>`).join('');
-    slideDots.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { slideIndex = +b.dataset.i; renderSlide(); resetAutoplay(); }));
+    promoDots.innerHTML = slides.map((_, i) => `<button data-i="${i}" class="${i === 0 ? 'active' : ''}" aria-label="Slide ${i+1}"></button>`).join('');
+    promoDots.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { goToSlide(+b.dataset.i); resetAutoplay(); }));
     resetAutoplay();
+    wireSwipe();
   }
-}).catch(err => {
-  console.error(err);
-  slides = [{ headline: 'Watches, Built To Be Worn', body: 'Sapphire-coated crystals and stainless steel cases.', image: '' }];
-  renderSlide();
-});
+}).catch(err => console.error(err));
 
+function goToSlide(i){
+  slideIndex = i;
+  promoTrack.querySelectorAll('.promo-card').forEach((el, idx) => el.classList.toggle('active', idx === i));
+  promoDots.querySelectorAll('button').forEach((b, idx) => b.classList.toggle('active', idx === i));
+}
 let autoplayTimer;
 function resetAutoplay(){
   clearInterval(autoplayTimer);
-  autoplayTimer = setInterval(() => { slideIndex = (slideIndex + 1) % slides.length; renderSlide(); }, 5000);
+  autoplayTimer = setInterval(() => goToSlide((slideIndex + 1) % slides.length), 5000);
 }
-function renderSlide(){
-  const s = slides[slideIndex];
-  if (!s || !slideContent) return;
-  slideContent.querySelector('h1').textContent = s.headline || '';
-  slideContent.querySelector('p').textContent = s.body || '';
-  if (slideDots) slideDots.querySelectorAll('button').forEach((b, i) => b.classList.toggle('active', i === slideIndex));
-  if (heroSection) heroSection.style.backgroundImage = s.image ? `url('${s.image}')` : 'none';
+function wireSwipe(){
+  let startX = null;
+  promoTrack.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  promoTrack.addEventListener('touchend', e => {
+    if (startX === null) return;
+    const delta = e.changedTouches[0].clientX - startX;
+    if (Math.abs(delta) > 40) {
+      goToSlide(delta < 0 ? (slideIndex + 1) % slides.length : (slideIndex - 1 + slides.length) % slides.length);
+      resetAutoplay();
+    }
+    startX = null;
+  });
 }
 
 // ---------- PRODUCTS ----------
