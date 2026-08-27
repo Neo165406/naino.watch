@@ -95,14 +95,15 @@ function watchProducts(){
 function renderProductsTable(){
   const tbody = document.getElementById('productsBody');
   if (products.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" class="empty-note">No products yet — click "Add Product".</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-note">No products yet — click "Add Product".</td></tr>`;
     return;
   }
   tbody.innerHTML = products.map(p => `
     <tr>
       <td><div class="row-thumb">${p.image ? `<img src="${p.image}" alt="">` : roundIcon}</div></td>
-      <td>${p.name}</td>
-      <td>${p.tag || '—'}</td>
+      <td>${p.name}${p.featured ? ' <span class="badge on" style="margin-left:4px;">★</span>' : ''}</td>
+      <td>${p.brand || '—'}</td>
+      <td>${p.soldCount ? fmtPrice(p.soldCount).replace('৳','') : '0'}</td>
       <td>${fmtPrice(p.price)}</td>
       <td><span class="badge ${p.active ? 'on' : 'off'}">${p.active ? 'Active' : 'Hidden'}</span></td>
       <td>
@@ -129,9 +130,12 @@ function openProductModal(id){
     productForm.name.value = p.name || '';
     productForm.tag.value = p.tag || '';
     productForm.spec.value = p.spec || '';
+    productForm.brand.value = p.brand || '';
+    productForm.soldCount.value = p.soldCount || 0;
     productForm.price.value = p.price || '';
     productForm.caseType.value = p.caseType || 'round';
     productForm.order.value = p.order != null ? p.order : products.length;
+    productForm.featured.checked = !!p.featured;
     productForm.active.checked = p.active !== false;
     pendingImageUrl = p.image || '';
     if (p.image) document.getElementById('pImagePreview').innerHTML = `<img src="${p.image}" alt="">`;
@@ -162,9 +166,12 @@ productForm.addEventListener('submit', async (e) => {
     name: productForm.name.value.trim(),
     tag: productForm.tag.value.trim(),
     spec: productForm.spec.value.trim(),
+    brand: productForm.brand.value.trim(),
+    soldCount: Number(productForm.soldCount.value) || 0,
     price: Number(productForm.price.value),
     caseType: productForm.caseType.value,
     order: Number(productForm.order.value) || 0,
+    featured: productForm.featured.checked,
     active: productForm.active.checked,
     image: pendingImageUrl || ''
   };
@@ -250,6 +257,7 @@ let slidesList = [];
 const slideModal = document.getElementById('slideModal');
 const slideForm = document.getElementById('slideForm');
 let editingSlideId = null;
+let pendingSlideImageUrl = '';
 
 function watchSlides(){
   db.collection('slides').orderBy('order').onSnapshot(snap => {
@@ -284,14 +292,18 @@ document.getElementById('slideModalClose').addEventListener('click', () => slide
 
 function openSlideModal(id){
   editingSlideId = id;
+  pendingSlideImageUrl = '';
   const s = id ? slidesList.find(x => x.id === id) : null;
   document.getElementById('slideModalTitle').textContent = id ? 'Edit Slide' : 'Add Slide';
   slideForm.reset();
+  document.getElementById('sImagePreview').innerHTML = '';
   if (s) {
     slideForm.headline.value = s.headline || '';
     slideForm.body.value = s.body || '';
     slideForm.order.value = s.order != null ? s.order : slidesList.length;
     slideForm.active.checked = s.active !== false;
+    pendingSlideImageUrl = s.image || '';
+    if (s.image) document.getElementById('sImagePreview').innerHTML = `<img src="${s.image}" alt="">`;
   } else {
     slideForm.order.value = slidesList.length;
     slideForm.active.checked = true;
@@ -299,18 +311,38 @@ function openSlideModal(id){
   slideModal.classList.add('open');
 }
 
+document.getElementById('sImageInput').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const preview = document.getElementById('sImagePreview');
+  preview.innerHTML = 'Uploading…';
+  try {
+    pendingSlideImageUrl = await uploadToImgbb(file);
+    preview.innerHTML = `<img src="${pendingSlideImageUrl}" alt="">`;
+  } catch (err) {
+    preview.innerHTML = '';
+    toast(`Image upload failed — ${err.message}`);
+  }
+});
+
 slideForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = {
     headline: slideForm.headline.value.trim(),
     body: slideForm.body.value.trim(),
     order: Number(slideForm.order.value) || 0,
-    active: slideForm.active.checked
+    active: slideForm.active.checked,
+    image: pendingSlideImageUrl || ''
   };
-  if (editingSlideId) await db.collection('slides').doc(editingSlideId).update(data);
-  else await db.collection('slides').add(data);
-  slideModal.classList.remove('open');
-  toast('Slide saved.');
+  try {
+    if (editingSlideId) await db.collection('slides').doc(editingSlideId).update(data);
+    else await db.collection('slides').add(data);
+    slideModal.classList.remove('open');
+    toast('Slide saved.');
+  } catch (err) {
+    console.error(err);
+    toast(`Could not save — ${err.code || 'error'}: ${err.message}`);
+  }
 });
 
 // ==========================================================================
