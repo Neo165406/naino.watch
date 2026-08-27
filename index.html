@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -43,8 +43,9 @@
   </div>
 </header>
 
-<section class="hero fluted">
+<section class="hero fluted" id="heroSection">
   <div class="hero-columns" aria-hidden="true"></div>
+  <div class="hero-overlay" id="heroOverlay" aria-hidden="true"></div>
   <div class="emblem-wrap">
     <div class="emblem-glow" aria-hidden="true"></div>
     <div class="emblem">
@@ -70,6 +71,18 @@
   </div>
 </div>
 
+<section class="bestsellers" id="bestSellersSection" style="display:none;">
+  <div class="wrap">
+    <div class="collection-head">
+      <div>
+        <div class="eyebrow">🔥 Best Sellers</div>
+        <h2>Most Loved Pieces</h2>
+      </div>
+    </div>
+    <div class="grid" id="bestSellersGrid"></div>
+  </div>
+</section>
+
 <section class="collection" id="collection">
   <div class="wrap">
     <div class="collection-head">
@@ -78,6 +91,7 @@
         <h2>Current Pieces</h2>
       </div>
     </div>
+    <div class="filter-pills" id="filterPills"></div>
     <div class="grid" id="productGrid">
       <p class="empty-note">Loading the collection…</p>
     </div>
