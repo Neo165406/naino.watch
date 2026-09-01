@@ -15,13 +15,21 @@
   --gray: #9a9a9a;
   --border: rgba(255,255,255,0.12);
   --radius: 4px;
+
+  /* Watch-gears watermark — real movement photo, dark-tinted so it reads at ~45% visibility */
+  --gear-bg: linear-gradient(rgba(10,10,10,0.55), rgba(10,10,10,0.55)), url('../assets/gears-bg.png');
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--black);
+  background-color: var(--black);
+  background-image: var(--gear-bg);
+  background-repeat: no-repeat;
+  background-size: cover, cover;
+  background-position: center;
+  background-attachment: fixed;
   color: var(--white);
   font-family: 'Inter', sans-serif;
   line-height: 1.5;
@@ -61,7 +69,11 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--black);
+  background-color: var(--black);
+  background-image: var(--gear-bg);
+  background-size: cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-bottom: 1px solid var(--border);
 }
 nav {
@@ -171,7 +183,11 @@ nav {
   overflow: hidden;
   padding: 56px 20px 40px;
   text-align: center;
-  background: radial-gradient(circle at 30% 20%, rgba(225,29,46,0.18), transparent 55%), var(--black);
+  background-color: var(--black);
+  background-image: radial-gradient(circle at 30% 20%, rgba(225,29,46,0.18), transparent 55%), var(--gear-bg);
+  background-size: auto, cover, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
 }
 .hero-columns {
   position: absolute;
@@ -394,12 +410,32 @@ section { padding: 40px 0; }
 .ethos-panel { padding: 48px 32px; }
 .ethos-panel h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin: 10px 0 14px; }
 .ethos-panel p { color: var(--gray); max-width: 420px; }
-.ethos-ink { background: var(--black-soft); }
-.ethos-void { background: var(--black); }
+.ethos-ink {
+  background-color: var(--black-soft);
+  background-image: var(--gear-bg);
+  background-size: cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.ethos-void {
+  background-color: var(--black);
+  background-image: var(--gear-bg);
+  background-size: cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 @media (max-width: 760px) { .ethos { grid-template-columns: 1fr; } }
 
 /* ---------- Footer ---------- */
-footer { background: var(--black-soft); border-top: 1px solid var(--border); padding: 48px 0 24px; }
+footer {
+  background-color: var(--black-soft);
+  background-image: var(--gear-bg);
+  background-size: cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-top: 1px solid var(--border);
+  padding: 48px 0 24px;
+}
 .footer-top {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
