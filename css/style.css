@@ -69,11 +69,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--black);
-  background-image: var(--gear-bg);
-  background-size: cover, cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: rgba(10,10,10,0.85);
   border-bottom: 1px solid var(--border);
 }
 nav {
@@ -183,11 +179,8 @@ nav {
   overflow: hidden;
   padding: 56px 20px 40px;
   text-align: center;
-  background-color: var(--black);
-  background-image: radial-gradient(circle at 30% 20%, rgba(225,29,46,0.18), transparent 55%), var(--gear-bg);
-  background-size: auto, cover, cover;
-  background-position: center, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-color: transparent;
+  background-image: radial-gradient(circle at 30% 20%, rgba(225,29,46,0.18), transparent 55%);
 }
 .hero-columns {
   position: absolute;
@@ -410,29 +403,13 @@ section { padding: 40px 0; }
 .ethos-panel { padding: 48px 32px; }
 .ethos-panel h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin: 10px 0 14px; }
 .ethos-panel p { color: var(--gray); max-width: 420px; }
-.ethos-ink {
-  background-color: var(--black-soft);
-  background-image: var(--gear-bg);
-  background-size: cover, cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.ethos-void {
-  background-color: var(--black);
-  background-image: var(--gear-bg);
-  background-size: cover, cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+.ethos-ink { background-color: rgba(20,20,20,0.78); }
+.ethos-void { background-color: rgba(10,10,10,0.78); }
 @media (max-width: 760px) { .ethos { grid-template-columns: 1fr; } }
 
 /* ---------- Footer ---------- */
 footer {
-  background-color: var(--black-soft);
-  background-image: var(--gear-bg);
-  background-size: cover, cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: rgba(20,20,20,0.82);
   border-top: 1px solid var(--border);
   padding: 48px 0 24px;
 }
