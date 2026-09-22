@@ -1,11 +1,12 @@
 // ==========================================================================
 // XAINO — single product page logic
-// Cart drawer + checkout + settings live in js/cart.js (shared with index.html)
+// Cart drawer + checkout + wishlist live in js/cart.js (shared with index.html)
 // ==========================================================================
 
 const detailView = document.getElementById('productDetailView');
 const notFoundView = document.getElementById('notFoundView');
 const pStage = document.getElementById('pStage');
+const pHeartBtn = document.getElementById('pHeartBtn');
 const pBrand = document.getElementById('pBrand');
 const pName = document.getElementById('pName');
 const pTag = document.getElementById('pTag');
@@ -17,6 +18,7 @@ const qtyDisplay = document.getElementById('qtyDisplay');
 const addToCartBtn = document.getElementById('pAddToCart');
 const buyWhatsAppBtn = document.getElementById('pBuyWhatsApp');
 const pageTitleEl = document.querySelector('title');
+const searchInput = document.getElementById('searchInput');
 
 let currentProduct = null;
 let qty = 1;
@@ -51,9 +53,12 @@ function renderProduct(p){
   notFoundView.style.display = 'none';
   pageTitleEl.textContent = `${p.name} — XAINO`;
 
-  pStage.innerHTML = p.image
+  const img = pStage.querySelector('img');
+  if (img) img.remove();
+  const iconHtml = p.image
     ? `<img src="${p.image}" alt="${p.name}">`
     : (p.caseType === 'square' ? squareWatchSVG : roundWatchSVG);
+  pStage.insertAdjacentHTML('afterbegin', iconHtml);
 
   pBrand.textContent = p.brand || 'XAINO';
   pName.textContent = p.name;
@@ -65,6 +70,11 @@ function renderProduct(p){
   else { pSoldBadge.style.display = 'none'; }
 
   pBestRibbon.style.display = p.featured ? 'inline-block' : 'none';
+
+  if (pHeartBtn) {
+    pHeartBtn.classList.toggle('is-fav', isFav(p.id));
+    pHeartBtn.addEventListener('click', () => toggleWishlist(p.id, pHeartBtn));
+  }
 
   buyWhatsAppBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi XAINO, I'd like to order the ${p.name} — ${fmtPrice(p.price)}.`)}`;
 }
@@ -84,3 +94,12 @@ addToCartBtn.addEventListener('click', () => {
   qty = 1;
   qtyDisplay.textContent = qty;
 });
+
+// Search bar on the product page sends people back to the collection, filtered.
+if (searchInput) {
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const q = searchInput.value.trim();
+    location.href = q ? `index.html?q=${encodeURIComponent(q)}#collection` : `index.html#collection`;
+  });
+}
