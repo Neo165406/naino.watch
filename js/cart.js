@@ -47,6 +47,25 @@ function saveCart(cart){
 }
 let cart = loadCart();
 
+// ---------- wishlist (heart icon on cards — Titan-style "save" toggle) ----------
+let memWishlist = [];
+function loadWishlist(){
+  try { return JSON.parse(localStorage.getItem('xaino_wishlist') || '[]'); }
+  catch(e){ return memWishlist; }
+}
+function saveWishlist(list){
+  try { localStorage.setItem('xaino_wishlist', JSON.stringify(list)); }
+  catch(e){ memWishlist = list; }
+}
+let wishlist = loadWishlist();
+function isFav(id){ return wishlist.includes(id); }
+function toggleWishlist(id, btnEl){
+  if (wishlist.includes(id)) wishlist = wishlist.filter(x => x !== id);
+  else wishlist.push(id);
+  saveWishlist(wishlist);
+  if (btnEl) btnEl.classList.toggle('is-fav', wishlist.includes(id));
+}
+
 // ---------- DOM refs (present on every page that includes the cart drawer partial) ----------
 const announceBar = document.getElementById('announceBar');
 const cartCount = document.getElementById('cartCount');
