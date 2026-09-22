@@ -24,24 +24,28 @@
 
 <header>
   <nav>
-    <div class="brandmark"><img src="assets/logo.png" alt="XAINO" class="dot"><span class="word">XAINO</span></div>
-    <div class="nav-links">
-      <a href="#collection">Collection</a>
-      <a href="#ethos">About</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-left">
+      <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="brandmark"><img src="assets/logo.png" alt="XAINO" class="dot"><span class="word">XAINO</span></div>
     </div>
     <div class="nav-actions">
       <button class="icon-btn" id="cartBtn" aria-label="Open cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
         <span class="cart-count" id="cartCount" style="display:none;">0</span>
       </button>
-      <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </nav>
+  <div class="search-bar-wrap">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search the collection" autocomplete="off">
+    </div>
+  </div>
   <div class="mobile-panel" id="mobilePanel">
     <a href="#collection">Collection</a>
+    <a href="#bestSellersSection">Best Sellers</a>
     <a href="#ethos">About</a>
     <a href="#contact">Contact</a>
   </div>
@@ -50,20 +54,60 @@
 <section class="hero fluted" id="heroSection">
   <div class="hero-columns" aria-hidden="true"></div>
   <div class="slide-content">
+    <div class="hero-eyebrow">Luxury Meets Affordability</div>
     <h1>Watches, Built To Be Worn</h1>
     <p>Sapphire-coated crystals and stainless steel cases — priced for people who refuse to overpay for a logo.</p>
   </div>
   <div class="hero-ctas">
-    <a class="btn btn-solid" href="#collection">View The Collection</a>
+    <a class="btn btn-solid" href="#collection">Shop Now</a>
     <a class="btn btn-ghost" id="heroWA" href="#" target="_blank" rel="noopener">Chat On WhatsApp</a>
+  </div>
+  <div class="hero-stage" id="heroStage">
+    <div class="hero-arc" aria-hidden="true" id="heroArc"></div>
+    <div class="hero-watch-wrap" id="heroWatchWrap"></div>
+  </div>
+</section>
+
+<section class="trust-row">
+  <div class="wrap">
+    <div class="trust-row-inner">
+      <div class="trust-item">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l7 3v6c0 5-3.4 8.4-7 11-3.6-2.6-7-6-7-11V5l7-3z"/></svg></div>
+        <span>Sapphire-Coated Crystal</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11z"/></svg></div>
+        <span>5ATM Water Resistant</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <span>Precision Quartz Movement</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg></div>
+        <span>2-Year Warranty</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3.5V7M8 3.5V7M3 11h18"/></svg></div>
+        <span>Cash On Delivery Nationwide</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cat-icons">
+  <div class="wrap">
+    <div class="cat-icons-row" id="catIconsRow"></div>
   </div>
 </section>
 
 <div class="wrap">
-  <div class="promo-slider" id="promoSlider" style="display:none;">
+  <div class="carousel-wrap" id="promoWrap" style="display:none;">
     <div class="promo-track" id="promoTrack"></div>
-    <div class="promo-dots" id="promoDots"></div>
+    <button class="arrow-btn prev" id="promoPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="arrow-btn next" id="promoNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
   </div>
+  <div class="scroll-progress" style="display:none;"><div class="scroll-progress-fill" id="promoProgress"></div></div>
 </div>
 
 <div class="ticker" aria-hidden="true">
@@ -75,23 +119,26 @@
 
 <section class="bestsellers" id="bestSellersSection" style="display:none;">
   <div class="wrap">
-    <div class="collection-head">
+    <div class="carousel-head">
       <div>
         <div class="eyebrow">🔥 Best Sellers</div>
         <h2>Most Loved Pieces</h2>
       </div>
     </div>
-    <div class="grid" id="bestSellersGrid"></div>
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="bestSellersGrid"></div>
+      <button class="arrow-btn prev" id="bsPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="arrow-btn next" id="bsNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div class="scroll-progress"><div class="scroll-progress-fill" id="bsProgress"></div></div>
   </div>
 </section>
 
 <section class="collection" id="collection">
   <div class="wrap">
     <div class="collection-head">
-      <div>
-        <div class="eyebrow">The Collection</div>
-        <h2>Current Pieces</h2>
-      </div>
+      <div class="eyebrow">The Collection</div>
+      <h2>Current Pieces</h2>
     </div>
     <div class="filter-pills" id="filterPills"></div>
     <div class="grid" id="productGrid">
@@ -102,7 +149,7 @@
 
 <section class="ethos" id="ethos">
   <div class="ethos-panel ethos-ink">
-    <div class="eyebrow" style="color:var(--red-deep);">Our Ethos</div>
+    <div class="eyebrow" style="color:var(--red);">Our Ethos</div>
     <h2>Luxury shouldn't need a loan.</h2>
     <p>We cut the markup that pays for celebrity ads and flagship rent — not the parts that make a watch worth wearing. Every XAINO case, crystal and movement is chosen to outlast the trend it was bought for.</p>
   </div>
@@ -119,6 +166,30 @@
       <h3>Ready to wear something honest?</h3>
       <a class="btn btn-solid" id="footerWA" href="#" target="_blank" rel="noopener">Chat On WhatsApp</a>
     </div>
+
+    <div class="footer-accordion">
+      <details>
+        <summary>About Us</summary>
+        <div class="panel">XAINO sells luxury-style watches at honest prices — sapphire-coated crystals and stainless steel cases, without the markup that pays for celebrity ads and flagship rent. Every piece is chosen to outlast the trend it was bought for.</div>
+      </details>
+      <details>
+        <summary>Policies</summary>
+        <div class="panel">All orders ship cash on delivery, nationwide across Bangladesh. Every watch carries a 2-year warranty. If anything's wrong with your order, message us on WhatsApp and we'll sort it out.</div>
+      </details>
+      <details>
+        <summary>Contact Us</summary>
+        <div class="panel">Questions about an order or a piece? Reach us on WhatsApp using the button above or below — we usually reply within the day.</div>
+      </details>
+    </div>
+
+    <div class="footer-connect">
+      <div class="label">Connect With Us</div>
+      <a href="#" id="connectWA" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp Support
+      </a>
+    </div>
+
     <div class="footer-bottom">
       <span>© 2026 XAINO. Luxury Meets Affordability.</span>
       <span>Dhaka, Bangladesh</span>
@@ -177,6 +248,12 @@
     mobilePanel.classList.remove('open');
     burgerBtn.setAttribute('aria-expanded', false);
   }));
+  const connectWA = document.getElementById('connectWA');
+  const footerWAlink = document.getElementById('footerWA');
+  if (connectWA && footerWAlink) {
+    const obs = new MutationObserver(() => { connectWA.href = footerWAlink.href; });
+    obs.observe(footerWAlink, { attributes: true, attributeFilter: ['href'] });
+  }
 </script>
 
 </body>
